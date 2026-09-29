@@ -60,11 +60,16 @@ h1 {
 
 .controls {
     margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 16px;
 }
 
 button {
     padding: 8px 18px;
-    margin: 0 8px;
     font-size: 16px;
     border: none;
     background: #1976d2;
@@ -79,7 +84,99 @@ button:hover {
 }
 
 #message {
-    margin-left: 20px;
     font-size: 16px;
     color: #d32f2f;
+}
+
+.difficulty-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.difficulty-control label {
+    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#difficulty-select {
+    padding: 8px 10px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+}
+
+#difficulty-select:focus {
+    outline: 2px solid #90caf9;
+    outline-offset: 1px;
+}
+
+@media (max-width: 600px) {
+    #sudoku-board {
+        margin: 20px auto;
+    }
+
+    .sudoku-cell {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+    }
+
+    .controls {
+        gap: 10px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #121212;
+    }
+
+    h1 {
+        color: #f1f1f1;
+    }
+
+    #sudoku-board {
+        border-color: #f1f1f1;
+        background: #1e1e1e;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    .sudoku-cell {
+        background: #232323;
+        border-color: #555;
+        color: #f1f1f1;
+    }
+
+    .sudoku-cell:focus {
+        background: #23465c;
+    }
+
+    .sudoku-cell.prefilled {
+        background: #303030;
+        color: #f1f1f1;
+    }
+
+    .sudoku-cell:nth-child(3),
+    .sudoku-cell:nth-child(6) {
+        border-right-color: #f1f1f1;
+    }
+
+    .sudoku-row:nth-child(3) .sudoku-cell,
+    .sudoku-row:nth-child(6) .sudoku-cell {
+        border-bottom-color: #f1f1f1;
+    }
+
+    .difficulty-control label {
+        color: #f1f1f1;
+    }
+
+    #difficulty-select {
+        background: #232323;
+        border-color: #555;
+        color: #f1f1f1;
+    }
 }
