@@ -1,6 +1,10 @@
 import app as sudoku_app
 
 
+def _empty_board():
+    return [[0] * sudoku_app.sudoku_logic.SIZE for _ in range(sudoku_app.sudoku_logic.SIZE)]
+
+
 def _board_with_single_difference(solution):
     board = [row[:] for row in solution]
     original = board[0][0]
@@ -66,3 +70,67 @@ def test_new_route_rejects_non_integer_clues(client):
     response = client.get('/new?clues=not-an-int')
 
     assert response.status_code == 500
+
+
+def test_new_route_maps_easy_difficulty_to_expected_clues(client, monkeypatch):
+    called = {}
+
+    def fake_generate_puzzle(clues):
+        called['clues'] = clues
+        board = _empty_board()
+        return board, board
+
+    monkeypatch.setattr(sudoku_app.sudoku_logic, 'generate_puzzle', fake_generate_puzzle)
+
+    response = client.get('/new?difficulty=easy')
+
+    assert response.status_code == 200
+    assert called['clues'] == sudoku_app.DIFFICULTY_CLUES['easy']
+
+
+def test_new_route_maps_medium_difficulty_to_expected_clues(client, monkeypatch):
+    called = {}
+
+    def fake_generate_puzzle(clues):
+        called['clues'] = clues
+        board = _empty_board()
+        return board, board
+
+    monkeypatch.setattr(sudoku_app.sudoku_logic, 'generate_puzzle', fake_generate_puzzle)
+
+    response = client.get('/new?difficulty=medium')
+
+    assert response.status_code == 200
+    assert called['clues'] == sudoku_app.DIFFICULTY_CLUES['medium']
+
+
+def test_new_route_maps_hard_difficulty_to_expected_clues(client, monkeypatch):
+    called = {}
+
+    def fake_generate_puzzle(clues):
+        called['clues'] = clues
+        board = _empty_board()
+        return board, board
+
+    monkeypatch.setattr(sudoku_app.sudoku_logic, 'generate_puzzle', fake_generate_puzzle)
+
+    response = client.get('/new?difficulty=hard')
+
+    assert response.status_code == 200
+    assert called['clues'] == sudoku_app.DIFFICULTY_CLUES['hard']
+
+
+def test_new_route_invalid_difficulty_falls_back_to_medium(client, monkeypatch):
+    called = {}
+
+    def fake_generate_puzzle(clues):
+        called['clues'] = clues
+        board = _empty_board()
+        return board, board
+
+    monkeypatch.setattr(sudoku_app.sudoku_logic, 'generate_puzzle', fake_generate_puzzle)
+
+    response = client.get('/new?difficulty=unknown')
+
+    assert response.status_code == 200
+    assert called['clues'] == sudoku_app.DIFFICULTY_CLUES['medium']
