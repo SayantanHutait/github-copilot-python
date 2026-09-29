@@ -68,3 +68,31 @@ def test_generate_puzzle_with_more_than_81_clues_keeps_full_board():
     puzzle, _ = sudoku_logic.generate_puzzle(clues=100)
 
     assert sum(cell == sudoku_logic.EMPTY for row in puzzle for cell in row) == 0
+
+
+def test_count_solutions_returns_one_for_completed_valid_board():
+    _, solution = sudoku_logic.generate_puzzle(clues=81)
+
+    assert sudoku_logic.count_solutions(solution) == 1
+
+
+def test_count_solutions_detects_multiple_solutions():
+    board = [
+        [0, 0, 0, 0, 0, 0, 0, 1, 2],
+        [0, 0, 0, 0, 3, 5, 0, 0, 0],
+        [0, 0, 0, 7, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 3, 0, 0],
+        [0, 0, 1, 0, 8, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 4, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+
+    assert sudoku_logic.count_solutions(board, limit=2) == 2
+
+
+def test_generate_puzzle_produces_uniquely_solvable_puzzle():
+    puzzle, _ = sudoku_logic.generate_puzzle(clues=35)
+
+    assert sudoku_logic.count_solutions(puzzle, limit=2) == 1

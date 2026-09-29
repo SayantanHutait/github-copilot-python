@@ -48,10 +48,32 @@ def remove_cells(board, clues):
             board[row][col] = EMPTY
             attempts -= 1
 
+def count_solutions(board, limit=2):
+    board_copy = deep_copy(board)
+
+    def backtrack():
+        for row in range(SIZE):
+            for col in range(SIZE):
+                if board_copy[row][col] == EMPTY:
+                    total = 0
+                    for candidate in range(1, SIZE + 1):
+                        if is_safe(board_copy, row, col, candidate):
+                            board_copy[row][col] = candidate
+                            total += backtrack()
+                            board_copy[row][col] = EMPTY
+                            if total >= limit:
+                                return total
+                    return total
+        return 1
+
+    return backtrack()
+
 def generate_puzzle(clues=35):
-    board = create_empty_board()
-    fill_board(board)
-    solution = deep_copy(board)
-    remove_cells(board, clues)
-    puzzle = deep_copy(board)
-    return puzzle, solution
+    while True:
+        board = create_empty_board()
+        fill_board(board)
+        solution = deep_copy(board)
+        remove_cells(board, clues)
+        puzzle = deep_copy(board)
+        if count_solutions(puzzle) == 1:
+            return puzzle, solution
