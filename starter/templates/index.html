@@ -1,18 +1,44 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <h1>Sudoku Game</h1>
-  <div id="sudoku-board"></div>
-  <div class="controls">
-    <button id="new-game">New Game</button>
-    <button id="check-solution">Check Solution</button>
-    <span id="message"></span>
-  </div>
+  <main class="app-shell">
+    <header>
+      <h1>Sudoku Game</h1>
+    </header>
+
+    <section class="controls" aria-label="Game controls">
+      <label for="difficulty">Difficulty</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button id="new-game" type="button">New Game</button>
+      <button id="hint" type="button">Hint</button>
+      <button id="check-solution" type="button">Check Puzzle</button>
+      <button id="toggle-dark-mode" type="button" aria-pressed="false">Dark Mode</button>
+    </section>
+
+    <section class="status-row" aria-live="polite">
+      <p id="timer">Time: 00:00</p>
+      <p id="hints-used">Hints used: 0</p>
+      <p id="message"></p>
+    </section>
+
+    <section id="sudoku-board" aria-label="Sudoku board"></section>
+
+    <aside class="scores" aria-label="Top scores">
+      <h2>Top 10 Fastest Scores</h2>
+      <ol id="top-scores"></ol>
+    </aside>
+  </main>
+
   <script src="/static/main.js"></script>
 </body>
 </html>
